@@ -109,41 +109,6 @@ ll gcd(ll a, ll b)
 
 /****************MAIN*****************************************************/
 
-ll cal(ll a, ll b, char c)
-{
-	if (c == '*')
-	{
-		return a * b;
-	}
-	else if (c == '-')
-	{
-		return a - b;
-	}
-	return a + b;
-}
-vector<int> factorial(int n)
-{
-
-	vi v;
-	v.pb(1);
-	for (ll j = 2; j <= n; j++)
-	{
-		ll carry = 0;
-		for (ll i = 0; i < v.size(); i++)
-		{
-			ll pro = v[i] * j + carry;
-			v[i] = pro % 10;
-			carry = pro / 10;
-		}
-		while (carry)
-		{
-			v.pb(carry % 10);
-			carry = carry / 10;
-		}
-	}
-	reverse(v.begin(), v.end());
-	return v;
-}
 signed main()
 {
 	FastIO
@@ -155,14 +120,33 @@ signed main()
 
 	t = 1;
 
-	cin >> t;
+	// cin >> t;
 	while (t--)
 	{
-		int n;
+
+		ll n;
 		cin >> n;
-		vi v = factorial(n);
-		rep(v.size()) cout << v[i];
-		cout << endl;
+		ll a[n];
+		rep(n)
+		{
+			cin >> a[i];
+		}
+		ll p[n] = {0};
+		rep(n) p[i] = 0;
+		ll ma = a[n - 1];
+		for (ll i = n - 2; i >= 0; i--)
+		{
+			ma = max(a[i], ma);
+			p[i] = max(p[i + 1], ma - a[i]);
+		}
+		ll mi = a[0];
+		for (ll i = 1; i < n; i++)
+		{
+			mi = min(a[i], mi);
+			p[i] = max(p[i - 1], p[i] + (a[i] - mi));
+		}
+
+		cout << p[n - 1];
 	}
 	return 0;
 }

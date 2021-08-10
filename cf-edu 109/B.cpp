@@ -32,30 +32,30 @@ using namespace std;
 #define preciset(x) cout << setprecision(x) << fixed;
 
 // datatypes
-typedef int ll;
+typedef long long ll;
 typedef unsigned long long ull;
 typedef pair<ll, ll> ii;
 typedef vector<ll> vi;
 typedef vector<ii> vii;
 
 #define FastIO                   \
-	ios::sync_with_stdio(false); \
-	cin.tie(NULL);               \
-	cout.tie(NULL);
+    ios::sync_with_stdio(false); \
+    cin.tie(NULL);               \
+    cout.tie(NULL);
 /*********************DEBUGGG*******************************************/
 #define db(...) ZZ(#__VA_ARGS__, __VA_ARGS__)
 
 template <typename Arg1>
 void ZZ(const char *name, Arg1 &&arg1)
 {
-	std::cerr << name << " = " << arg1 << endl;
+    std::cerr << name << " = " << arg1 << endl;
 }
 template <typename Arg1, typename... Args>
 void ZZ(const char *names, Arg1 &&arg1, Args &&...args)
 {
-	const char *comma = strchr(names + 1, ',');
-	std::cerr.write(names, comma - names) << " = " << arg1;
-	ZZ(comma, args...);
+    const char *comma = strchr(names + 1, ',');
+    std::cerr.write(names, comma - names) << " = " << arg1;
+    ZZ(comma, args...);
 }
 const ll INF = 0xFFFFFFFFFFFFFFFL;
 
@@ -63,8 +63,8 @@ const ll INF = 0xFFFFFFFFFFFFFFFL;
 clock_t time_p = clock();
 void timedekhlo()
 {
-	time_p = clock() - time_p;
-	cerr << "Time Taken : " << (float)(time_p) / CLOCKS_PER_SEC << "\n";
+    time_p = clock() - time_p;
+    cerr << "Time Taken : " << (float)(time_p) / CLOCKS_PER_SEC << "\n";
 }
 ll seed;
 mt19937 rng(seed = chrono::steady_clock::now().time_since_epoch().count());
@@ -81,88 +81,84 @@ const double pi = 1.00 * acos(-1.00);
 //Modulo power
 ll modpow(ll x, ll y, ll m)
 {
-	ll res = 1;
-	x = x % m;
-	while (y > 0)
-	{
-		if (y & 1)
-			res = ((res % m) * (x % m)) % m;
-		y = y >> 1;
-		x = ((x % m) * (x % m)) % m;
-	}
-	return res % m;
+    ll res = 1;
+    x = x % m;
+    while (y > 0)
+    {
+        if (y & 1)
+            res = ((res % m) * (x % m)) % m;
+        y = y >> 1;
+        x = ((x % m) * (x % m)) % m;
+    }
+    return res % m;
 }
 
 // modulo inverse
 ll modinv(ll x, ll m)
 {
-	return modpow(x, m - 2, m);
+    return modpow(x, m - 2, m);
 }
 
 //GCD
 ll gcd(ll a, ll b)
 {
-	if (a == 0)
-		return b;
-	return gcd(b % a, a);
+    if (a == 0)
+        return b;
+    return gcd(b % a, a);
 }
 
 /****************MAIN*****************************************************/
 
-ll cal(ll a, ll b, char c)
-{
-	if (c == '*')
-	{
-		return a * b;
-	}
-	else if (c == '-')
-	{
-		return a - b;
-	}
-	return a + b;
-}
-vector<int> factorial(int n)
+void reverse(vi &a, ll l, ll r)
 {
 
-	vi v;
-	v.pb(1);
-	for (ll j = 2; j <= n; j++)
-	{
-		ll carry = 0;
-		for (ll i = 0; i < v.size(); i++)
-		{
-			ll pro = v[i] * j + carry;
-			v[i] = pro % 10;
-			carry = pro / 10;
-		}
-		while (carry)
-		{
-			v.pb(carry % 10);
-			carry = carry / 10;
-		}
-	}
-	reverse(v.begin(), v.end());
-	return v;
+    while (l < r)
+    {
+        swap(a[l], a[r]);
+        l++;
+        r--;
+    }
 }
 signed main()
 {
-	FastIO
-		ll t;
+    FastIO
+        ll t;
 #ifndef ONLINE_JUDGE
-	freopen("input.txt", "r", stdin);
-	freopen("output.txt", "w", stdout);
+    freopen("../input.txt", "r", stdin);
+    freopen("../output.txt", "w", stdout);
 #endif
 
-	t = 1;
+    t = 1;
+    cin >> t;
 
-	cin >> t;
-	while (t--)
-	{
-		int n;
-		cin >> n;
-		vi v = factorial(n);
-		rep(v.size()) cout << v[i];
-		cout << endl;
-	}
-	return 0;
+    while (t--)
+    {
+        ll n;
+        cin >> n;
+        vi a(n);
+
+        ll ans = 0;
+        rep(n)
+        {
+            cin >> a[i];
+            if (a[i] != i + 1)
+                ans++;
+        }
+        if (ans == 0)
+            cout << 0 << endl;
+        else if (a[0] == n && a[n - 1] == 1)
+        {
+            cout << 3 << endl;
+        }
+        else if (a[0] != 1 && a[n - 1] != n)
+        {
+            cout << 2 << endl;
+        }
+        else
+        {
+            cout << 1 << endl;
+        }
+    }
+
+    return 0;
 }
