@@ -109,16 +109,6 @@ ll gcd(ll a, ll b)
 
 /****************MAIN*****************************************************/
 
-void reverse(vi &a, ll l, ll r)
-{
-
-    while (l < r)
-    {
-        swap(a[l], a[r]);
-        l++;
-        r--;
-    }
-}
 signed main()
 {
     FastIO
@@ -133,98 +123,30 @@ signed main()
 
     while (t--)
     {
-        ll n, m;
-        cin >> n >> m;
-        vector<pair<ll, char>> e, o;
-        map<ll, ll> h;
-        ll a[n];
-        rep(n)
-        {
-            ll x;
-            cin >> x;
-            a[i] = x;
-            h[x] = i;
-        }
-        rep(n)
-        {
-            char c;
-            cin >> c;
-            if (a[i] % 2 == 0)
-                e.pb(mp(a[i], c));
-            else
-                o.pb(mp(a[i], c));
-        }
+        ll n;
+        cin >> n;
+        string ans = "NO";
+        ll a[8] = {11};
+        for (ll i = 1; i < 8; i++)
+            a[i] = a[i - 1] * 10 + 1;
 
-        ll ans[n] = {0};
-        sort(all(e));
-        sort(all(o));
-
-        stack<ll> l, r;
-
-        for (auto i : e)
+        for (ll m = 0; m < (1 << 8); m++)
         {
-            char c = i.sc;
-            ll x = i.fr;
-            if (c == 'R')
+            ll x = n;
+            for (ll i = 7; i >= 0; i--)
             {
-                r.push(x);
-            }
-            else
-            {
-                if (!r.empty())
+                if (m & (1 << i))
                 {
-                    ll f = r.top();
-                    r.pop();
-                    ll co = (x - f) / 2;
-                    ll in = h[f];
-                    ans[in] = co;
-                    ans[h[x]] = co;
-                }
-                else
-                {
-                    if (!l.empty())
-                    {
-                        ll f = l.top();
-                        l.pop();
-                        ll co = (f + x - 2) / 2;
-                        ll in = h[f];
-                        ans[in] = co;
-                        ans[h[x]] = co;
-                    }
-                    else
-                    {
-                        l.push(x);
-                    }
+                    x = x % a[i];
                 }
             }
-        }
-        while (!r.empty())
-        {
-            ll x = r.top();
-            r.pop();
-            if (!r.empty())
+            if (x == 0)
             {
-                ll f = r.top();
-                r.pop();
-                ll co = (m - x + m - f) / 2;
-                ll in = h[f];
-                ans[in] = co;
-                ans[h[x]] = co;
-            }
-            else if (!l.empty())
-            {
-
-                ll f = l.top();
-                l.pop();
-                if ((f - 1) % 2 == (m - x) % 2)
-                {
-                    ll co = (m - x + f - 1 + m) / 2;
-                    ll in = h[f];
-                    ans[in] = co;
-                    ans[h[x]] = co;
-                }
+                ans = "YES";
+                break;
             }
         }
+        cout << ans << endl;
     }
 
     return 0;

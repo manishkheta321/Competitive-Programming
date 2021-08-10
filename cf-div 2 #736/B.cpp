@@ -109,16 +109,6 @@ ll gcd(ll a, ll b)
 
 /****************MAIN*****************************************************/
 
-void reverse(vi &a, ll l, ll r)
-{
-
-    while (l < r)
-    {
-        swap(a[l], a[r]);
-        l++;
-        r--;
-    }
-}
 signed main()
 {
     FastIO
@@ -133,98 +123,67 @@ signed main()
 
     while (t--)
     {
-        ll n, m;
-        cin >> n >> m;
-        vector<pair<ll, char>> e, o;
-        map<ll, ll> h;
-        ll a[n];
+        ll n;
+        cin >> n;
+        string a, b;
+        cin >> a;
+        cin >> b;
+        ll ans = 0;
         rep(n)
         {
-            ll x;
-            cin >> x;
-            a[i] = x;
-            h[x] = i;
-        }
-        rep(n)
-        {
-            char c;
-            cin >> c;
-            if (a[i] % 2 == 0)
-                e.pb(mp(a[i], c));
-            else
-                o.pb(mp(a[i], c));
-        }
-
-        ll ans[n] = {0};
-        sort(all(e));
-        sort(all(o));
-
-        stack<ll> l, r;
-
-        for (auto i : e)
-        {
-            char c = i.sc;
-            ll x = i.fr;
-            if (c == 'R')
+            if (i == 0)
             {
-                r.push(x);
-            }
-            else
-            {
-                if (!r.empty())
+                if (b[i] == '1')
                 {
-                    ll f = r.top();
-                    r.pop();
-                    ll co = (x - f) / 2;
-                    ll in = h[f];
-                    ans[in] = co;
-                    ans[h[x]] = co;
-                }
-                else
-                {
-                    if (!l.empty())
-                    {
-                        ll f = l.top();
-                        l.pop();
-                        ll co = (f + x - 2) / 2;
-                        ll in = h[f];
-                        ans[in] = co;
-                        ans[h[x]] = co;
-                    }
+                    if (a[i] == '0')
+                        ans++;
                     else
                     {
-                        l.push(x);
+                        if (a[i + 1] == '1')
+                        {
+                            ans++;
+                            a[i + 1] = '2';
+                        }
+                    }
+                }
+            }
+            else if (i != n - 1)
+            {
+
+                if (b[i] == '1')
+                {
+                    if (a[i] == '0')
+                        ans++;
+                    else
+                    {
+                        if (a[i - 1] == '1')
+                            ans++;
+                        else if (a[i + 1] == '1')
+                        {
+                            ans++;
+                            a[i + 1] = '2';
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (b[i] == '1')
+                {
+                    if (a[i] == '0')
+                        ans++;
+                    else
+                    {
+                        if (a[i - 1] == '1')
+                        {
+                            ans++;
+                            a[i - 1] = '2';
+                        }
                     }
                 }
             }
         }
-        while (!r.empty())
-        {
-            ll x = r.top();
-            r.pop();
-            if (!r.empty())
-            {
-                ll f = r.top();
-                r.pop();
-                ll co = (m - x + m - f) / 2;
-                ll in = h[f];
-                ans[in] = co;
-                ans[h[x]] = co;
-            }
-            else if (!l.empty())
-            {
-
-                ll f = l.top();
-                l.pop();
-                if ((f - 1) % 2 == (m - x) % 2)
-                {
-                    ll co = (m - x + f - 1 + m) / 2;
-                    ll in = h[f];
-                    ans[in] = co;
-                    ans[h[x]] = co;
-                }
-            }
-        }
+        cout << ans << endl;
     }
 
     return 0;

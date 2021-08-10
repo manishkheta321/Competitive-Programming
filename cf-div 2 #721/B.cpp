@@ -109,16 +109,6 @@ ll gcd(ll a, ll b)
 
 /****************MAIN*****************************************************/
 
-void reverse(vi &a, ll l, ll r)
-{
-
-    while (l < r)
-    {
-        swap(a[l], a[r]);
-        l++;
-        r--;
-    }
-}
 signed main()
 {
     FastIO
@@ -133,97 +123,30 @@ signed main()
 
     while (t--)
     {
-        ll n, m;
-        cin >> n >> m;
-        vector<pair<ll, char>> e, o;
-        map<ll, ll> h;
-        ll a[n];
+        ll n;
+        cin >> n;
+        string s;
+        cin >> s;
+        ll c = 0;
         rep(n)
         {
-            ll x;
-            cin >> x;
-            a[i] = x;
-            h[x] = i;
+            if (s[i] == '0')
+                c++;
         }
-        rep(n)
+        if (c % 2 == 1)
         {
-            char c;
-            cin >> c;
-            if (a[i] % 2 == 0)
-                e.pb(mp(a[i], c));
+            c--;
+            if (c == 0)
+                cout << "BOB" << endl;
             else
-                o.pb(mp(a[i], c));
+                cout << "ALICE" << endl;
         }
-
-        ll ans[n] = {0};
-        sort(all(e));
-        sort(all(o));
-
-        stack<ll> l, r;
-
-        for (auto i : e)
+        else
         {
-            char c = i.sc;
-            ll x = i.fr;
-            if (c == 'R')
-            {
-                r.push(x);
-            }
+            if (c == 0)
+                cout << "DRAW" << endl;
             else
-            {
-                if (!r.empty())
-                {
-                    ll f = r.top();
-                    r.pop();
-                    ll co = (x - f) / 2;
-                    ll in = h[f];
-                    ans[in] = co;
-                    ans[h[x]] = co;
-                }
-                else
-                {
-                    if (!l.empty())
-                    {
-                        ll f = l.top();
-                        l.pop();
-                        ll co = (f + x - 2) / 2;
-                        ll in = h[f];
-                        ans[in] = co;
-                        ans[h[x]] = co;
-                    }
-                    else
-                    {
-                        l.push(x);
-                    }
-                }
-            }
-        }
-        while (!r.empty())
-        {
-            ll x = r.top();
-            r.pop();
-            if (!r.empty())
-            {
-                ll f = r.top();
-                r.pop();
-                ll co = (m - x + m - f) / 2;
-                ll in = h[f];
-                ans[in] = co;
-                ans[h[x]] = co;
-            }
-            else if (!l.empty())
-            {
-
-                ll f = l.top();
-                l.pop();
-                if ((f - 1) % 2 == (m - x) % 2)
-                {
-                    ll co = (m - x + f - 1 + m) / 2;
-                    ll in = h[f];
-                    ans[in] = co;
-                    ans[h[x]] = co;
-                }
-            }
+                cout << "BOB" << endl;
         }
     }
 
